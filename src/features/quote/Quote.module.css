@@ -1,0 +1,26 @@
+.quoteContainer {
+  box-shadow: inset 0 0 0 1000px rgba(255, 254, 254, 0.6);
+  position: absolute;
+  bottom: 70px;
+  width: 100%;
+  text-align: center;
+  padding: 0.5em;
+}
+
+.quote {
+  font-size: 1.1rem;
+  margin: 0.5em;
+  font-weight: 600;
+}
+
+span {
+  z-index: 50;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.quoteLink {
+  color: hsl(120, 98%, 17%);
+  margin-left: 4px;
+  vertical-align: middle;
+}
