@@ -1,0 +1,8 @@
+.goalInput {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid;
+    padding-top: .5em;
+    text-align: center;
+    font-size: 2em;
+}

@@ -1,45 +1,67 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const url = `https://api.unsplash.com/photos/random/`
 const query = `sweden%20forest`
 const orientation = `landscape`
 const API_KEY = process.env.REACT_APP_UNSPLASH_API_KEY
 
-export const fetchImage = createAsyncThunk(
-    'image/fetchImage',
-    async () => {
-        const response = await fetch(`${url}?query=${query}&orientation=${orientation}&client_id=${API_KEY}`)
-        const json = await response.json()
-        const data = {
-            src: json.urls.raw,
-            userName: json.user.name,
-            link: json.user.links.html
-        }
-        return data
-    }
-)
+export const fetchImage = createAsyncThunk('image/fetchImage', async () => {
+  const response = await fetch(
+    `${url}?query=${query}&orientation=${orientation}&count=5&client_id=${API_KEY}`
+  )
+  const json = await response.json()
+  return json
+})
 
 export const imageSlice = createSlice({
   name: 'image',
   initialState: {
-    src: '',
-    userName: '',
-    link: '',
+    images: [
+      {
+        id: '',
+        src: '',
+        userName: '',
+        link: '',
+      },
+    ],
+    currentImageIndex: 0,
     isLoading: false,
     error: false,
   },
-  reducers: {},
+  reducers: {
+    nextImage: (state, action) => {
+      const maxIndex = state.images.length
+      if (state.currentImageIndex === maxIndex) {
+        state.currentImageIndex = 1
+      } else {
+        state.currentImageIndex += 1
+      }       
+    },
+    prevImage: (state, action) => {
+      const maxIndex = state.images.length
+      if (state.currentImageIndex === 1) {
+        state.currentImageIndex = maxIndex
+      } else {
+        state.currentImageIndex -= 1
+      }
+    }
+  },
   extraReducers: {
     [fetchImage.pending]: (state) => {
       state.isLoading = true
       state.error = false
     },
     [fetchImage.fulfilled]: (state, action) => {
-      const { src, userName, link } = action.payload
-      
-      state.src = src
-      state.userName = userName
-      state.link = link
+      action.payload.forEach((image) => {
+        const picture = {
+          id: image.id,
+          src: image.urls.raw,
+          userName: image.user.name,
+          link: image.user.links.html,
+        }
+        state.images.push(picture)
+      })
+      state.currentImageIndex = 1
       state.isLoading = false
       state.error = false
     },
@@ -50,8 +72,8 @@ export const imageSlice = createSlice({
   },
 })
 
-export const selectImage = (state) => state.image.src
-export const selectUserName = (state) => state.image.userName
-export const selectLink = (state) => state.image.link
+export const selectCurrentImageIndex = (state) => state.image.currentImageIndex
+export const selectImages = (state) => state.image.images
 export const selectError = (state) => state.image.error
+export const { nextImage, prevImage } = imageSlice.actions
 export default imageSlice.reducer

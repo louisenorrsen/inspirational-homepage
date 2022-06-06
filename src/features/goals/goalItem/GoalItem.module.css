@@ -1,0 +1,44 @@
+.goalItem {
+  padding: 2em;
+  border: 2px solid hsl(0, 0%, 80%);
+  margin: 0.5em;
+  width: max-content;
+  border-radius: 0.5em;
+  color: white;
+  font-weight: 600;
+  position: relative;
+}
+
+.buttonContainer {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  left: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.done {
+  background-color: hsla(150, 64%, 31%, 0.6);
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 5px;
+  padding: 0.2em;
+}
+
+.delete {
+  background-color: hsla(0, 65%, 31%, 0.6);
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 5px;
+  padding: 0.2em;
+}
+
+.done,
+.delete {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.goalItem:hover button {
+  opacity: 1;
+}
+

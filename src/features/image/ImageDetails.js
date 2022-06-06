@@ -1,21 +1,33 @@
 import style from './ImageDetails.module.css'
-import { selectUserName, selectLink } from './imageSlice'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectImages, selectCurrentImageIndex, prevImage, nextImage } from './imageSlice'
 
 export const ImageDetails = () => {
-    const userName = useSelector(selectUserName)
-    const link = useSelector(selectLink)
+  const dispatch = useDispatch()
+  const images = useSelector(selectImages)
+  const currentImageIndex = useSelector(selectCurrentImageIndex)
+  const currentUserName = images[currentImageIndex].userName
+  const currentLink = images[currentImageIndex].link
+
+  const handleNextImage = () => {
+    dispatch(nextImage())
+  }
+
+  const handlePrevImage = () => {
+    dispatch(prevImage())
+  }
 
   return (
     <div className={style.imageDetailsContainer}>
+      <button className={style.arrow} onClick={handlePrevImage}>&#x219E;</button>
       <div className={style.details}>
         Photo by{' '}
         <a
-          href={`${link}?utm_source=your_app_name&utm_medium=referral`}
+          href={`${currentLink}?utm_source=your_app_name&utm_medium=referral`}
           target='_blank'
           rel='noreferrer'
           className={style.photoLink}>
-          {userName}
+          {currentUserName}
         </a>{' '}
         on{' '}
         <a
@@ -26,6 +38,7 @@ export const ImageDetails = () => {
           Unsplash
         </a>
       </div>
+      <button className={style.arrow} onClick={handleNextImage}>&#8608;</button>
     </div>
   )
 }
