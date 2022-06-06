@@ -1,14 +1,28 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";   
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const url = 'https://api.openweathermap.org/data/2.5/weather?'
-const lat = '57.1667'
-const lon = '16.45'
-const API_KEY = process.env.REACT_APP_WEATHER_API_KEY
+
+export const getCoords = createAsyncThunk(
+    'weather/fetchCoords',
+    async () => {
+        const response = await fetch(
+          `https://api.geoapify.com/v1/ipinfo?apiKey=${process.env.REACT_APP_LOCATION_API_KEY}`
+        )
+        const json = await response.json()
+        const data = {
+            lat: json.location.latitude,
+            lon: json.location.longitude
+        }
+        return data
+    }
+)
 
 export const fetchWeather = createAsyncThunk(
     'weather/fetchWeather',
-    async () => {
-        const response = await fetch(`${url}lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`)
+    async (coords) => {
+        const { lat, lon } = coords
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
+        )
         const json = await response.json()
         const data = {
             location: json.name,
@@ -27,6 +41,8 @@ export const weatherSlice = createSlice({
         temp: '',
         description: '',
         icon: '',
+        lat: '',
+        lon: '',
         isLoading: false,
         error: false
     },
@@ -48,10 +64,27 @@ export const weatherSlice = createSlice({
         [fetchWeather.rejected]: (state) => {
             state.isLoading = false
             state.error = true
+        },
+        [getCoords.pending]: (state, action) => {
+            state.isLoading = true
+            state.error = false
+        },
+        [getCoords.fulfilled]: (state, action) => {
+            const { lat, lon } = action.payload
+            state.isLoading = false
+            state.error = false
+            state.lat = lat
+            state.lon = lon
+        },
+        [getCoords.rejected]: (state, action) => {
+            state.error = true
+            state.isLoading = false
         }
     }
 })
 
+export const selectLon = (state) => state.weather.lon
+export const selectLat = (state) => state.weather.lat
 export const selectLocation = (state) => state.weather.location
 export const selectTemp = (state) => state.weather.temp
 export const selectDescription = (state) => state.weather.description
