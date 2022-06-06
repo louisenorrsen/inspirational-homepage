@@ -10,11 +10,13 @@ import {
   getCoords,
   selectLat,
   selectLon,
+  selectCountry
 } from './weatherSlice'
 
 export const Weather = () => {
   const location = useSelector(selectLocation)
-  const temp = useSelector(selectTemp)
+  const country = useSelector(selectCountry)
+  const temp = Math.round(useSelector(selectTemp))
   const description = useSelector(selectDescription)
   const icon = useSelector(selectIcon)
   const lat = useSelector(selectLat)
@@ -29,7 +31,7 @@ export const Weather = () => {
 
   return (
     <div className={style.weatherContainer}>
-      <h2>{location}</h2>
+      <h2>{`${location}, ${country}`}</h2>
       <div className={style.weatherDetails}>
         <img
           src={`https://openweathermap.org/img/wn/${icon}@2x.png`}

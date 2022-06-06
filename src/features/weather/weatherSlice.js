@@ -28,7 +28,8 @@ export const fetchWeather = createAsyncThunk(
             location: json.name,
             temp: json.main.temp,
             description: json.weather[0].description,
-            icon: json.weather[0].icon
+            icon: json.weather[0].icon,
+            country: json.sys.country
         }
         return data
     }
@@ -43,6 +44,7 @@ export const weatherSlice = createSlice({
         icon: '',
         lat: '',
         lon: '',
+        country: '',
         isLoading: false,
         error: false
     },
@@ -53,8 +55,9 @@ export const weatherSlice = createSlice({
             state.error = false
         },
         [fetchWeather.fulfilled]: (state, action) => {
-            const { location, temp, description, icon } = action.payload
+            const { location, temp, description, icon, country } = action.payload
             state.location = location
+            state.country = country
             state.temp = temp
             state.description = description
             state.icon = icon
@@ -86,6 +89,7 @@ export const weatherSlice = createSlice({
 export const selectLon = (state) => state.weather.lon
 export const selectLat = (state) => state.weather.lat
 export const selectLocation = (state) => state.weather.location
+export const selectCountry = (state) => state.weather.country
 export const selectTemp = (state) => state.weather.temp
 export const selectDescription = (state) => state.weather.description
 export const selectIcon = (state) => state.weather.icon

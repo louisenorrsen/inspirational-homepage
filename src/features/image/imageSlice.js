@@ -30,7 +30,7 @@ export const imageSlice = createSlice({
   },
   reducers: {
     nextImage: (state, action) => {
-      const maxIndex = state.images.length
+      const maxIndex = state.images.length -1
       if (state.currentImageIndex === maxIndex) {
         state.currentImageIndex = 1
       } else {
@@ -38,7 +38,7 @@ export const imageSlice = createSlice({
       }       
     },
     prevImage: (state, action) => {
-      const maxIndex = state.images.length
+      const maxIndex = state.images.length-1
       if (state.currentImageIndex === 1) {
         state.currentImageIndex = maxIndex
       } else {
