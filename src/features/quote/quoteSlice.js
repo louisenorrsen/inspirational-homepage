@@ -1,19 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const URL = 'https://quotes15.p.rapidapi.com/quotes/random/?language_code=en'
-const API_KEY = process.env.REACT_APP_QUOTE_API_KEY
 const options = {
   method: 'GET',
   headers: {
     'X-RapidAPI-Host': 'quotes15.p.rapidapi.com',
-    'X-RapidAPI-Key': API_KEY,
+    'X-RapidAPI-Key': process.env.REACT_APP_QUOTE_API_KEY,
   },
 }
 
 export const fetchQuote = createAsyncThunk(
     'quote/fetchQuote',
     async () => {
-        const response = await fetch(URL, options)
+        const response = await fetch('https://quotes15.p.rapidapi.com/quotes/random/?language_code=en', options)
         const json = await response.json()
         const data = {
             quote: json.content,

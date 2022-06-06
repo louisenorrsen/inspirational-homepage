@@ -14,9 +14,9 @@ function App() {
   const currentBackground = images[currentImageIndex].src
   
 
-  useEffect(() => {
-    dispatch(fetchImage())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(fetchImage())
+  // }, [dispatch])
 
  
 

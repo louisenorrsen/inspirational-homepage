@@ -1,13 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-const url = `https://api.unsplash.com/photos/random/`
-const query = `sweden%20forest`
-const orientation = `landscape`
-const API_KEY = process.env.REACT_APP_UNSPLASH_API_KEY
-
 export const fetchImage = createAsyncThunk('image/fetchImage', async () => {
+  const url = `https://api.unsplash.com/photos/random/`
+  const query = `sweden%20forest`
+  const orientation = `landscape`
   const response = await fetch(
-    `${url}?query=${query}&orientation=${orientation}&count=5&client_id=${API_KEY}`
+    `${url}?query=${query}&orientation=${orientation}&count=5&client_id=${process.env.REACT_APP_UNSPLASH_API_KEY}`
   )
   const json = await response.json()
   return json
@@ -30,21 +28,21 @@ export const imageSlice = createSlice({
   },
   reducers: {
     nextImage: (state, action) => {
-      const maxIndex = state.images.length -1
+      const maxIndex = state.images.length - 1
       if (state.currentImageIndex === maxIndex) {
         state.currentImageIndex = 1
       } else {
         state.currentImageIndex += 1
-      }       
+      }
     },
     prevImage: (state, action) => {
-      const maxIndex = state.images.length-1
+      const maxIndex = state.images.length - 1
       if (state.currentImageIndex === 1) {
         state.currentImageIndex = maxIndex
       } else {
         state.currentImageIndex -= 1
       }
-    }
+    },
   },
   extraReducers: {
     [fetchImage.pending]: (state) => {

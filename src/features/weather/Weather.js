@@ -31,7 +31,7 @@ export const Weather = () => {
 
   return (
     <div className={style.weatherContainer}>
-      <h2>{`${location}, ${country}`}</h2>
+      <h2 className={style.location}>{`${location}, ${country}`}</h2>
       <div className={style.weatherDetails}>
         <img
           src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
