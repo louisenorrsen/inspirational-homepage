@@ -10,6 +10,7 @@
 }
 
 .backgroundImageContainer {
+  background-color: cornflowerblue;
   width: 100%;
   height: 100vh;
   position: absolute;
