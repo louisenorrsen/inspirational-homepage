@@ -4,6 +4,8 @@ This is a project at Codecademy. The goal of the project was to create an inspir
 ## Screenshot
 ![screenshot](./src/assets/screenshot.png)
 
+## Live Demo
+Project Live Demo: [https://louisenorrsen.netlify.app/](https://louisenorrsen.netlify.app/)  
 ## Features
 ### Weather
 The app uses your coordinates in order to fetch the local weather at your current location.
